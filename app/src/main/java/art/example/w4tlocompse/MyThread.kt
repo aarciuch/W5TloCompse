@@ -1,6 +1,5 @@
 package art.example.w4tlocompse
 
-import androidx.work.SystemClock
 import kotlinx.coroutines.flow.MutableStateFlow
 
 class MyThread(val input1: Int) : Thread() {
@@ -12,7 +11,7 @@ class MyThread(val input1: Int) : Thread() {
         for (i in 0 ..input1) {
             progress.value++
             iteration.value = i
-            Thread.sleep(500)
+            sleep(500)
         }
         result.value = progress.value
     }

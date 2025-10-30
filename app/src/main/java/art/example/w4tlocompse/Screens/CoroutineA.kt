@@ -1,6 +1,5 @@
 package art.example.w4tlocompse.Screens
 
-import android.R.attr.name
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier

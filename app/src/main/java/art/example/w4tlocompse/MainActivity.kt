@@ -1,6 +1,5 @@
 package art.example.w4tlocompse
 
-import android.R.attr.name
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
