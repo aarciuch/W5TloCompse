@@ -1,0 +1,99 @@
+package art.example.w4tlocompse.Screens
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Button
+import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.ProgressIndicatorDefaults
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.unit.dp
+import art.example.w4tlocompse.VM
+import org.koin.androidx.compose.koinViewModel
+
+@Composable
+fun Srodek(paddingValues: PaddingValues, zadanie: String, vm: VM = koinViewModel() ) {
+    val progress by vm.progress.collectAsState()
+    val iteracje by vm.iteracje.collectAsState()
+    val result by vm.result.collectAsState()
+    var input by remember { mutableStateOf(10) }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(paddingValues)
+            .padding(16.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text("Progress: ${progress}")
+        LinearProgressIndicator(
+            progress = { (progress.toFloat() - input.toFloat())/(input+1).toFloat() },
+            color = ProgressIndicatorDefaults.linearColor,
+            trackColor = ProgressIndicatorDefaults.linearTrackColor,
+            strokeCap = ProgressIndicatorDefaults.LinearStrokeCap,
+
+            )
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Text("Iterations: $iteracje")
+        LinearProgressIndicator(
+            progress = { (iteracje + 1).toFloat()/(input+1).toFloat() },
+            color = ProgressIndicatorDefaults.linearColor,
+            trackColor = ProgressIndicatorDefaults.linearTrackColor,
+            strokeCap = ProgressIndicatorDefaults.LinearStrokeCap,
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Text("Result: $result")
+        LinearProgressIndicator(
+            progress = { result.toFloat() },
+            color = ProgressIndicatorDefaults.linearColor,
+            trackColor = ProgressIndicatorDefaults.linearTrackColor,
+            strokeCap = ProgressIndicatorDefaults.LinearStrokeCap,
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+
+        TextField(
+            value = input.toString(),
+            onValueChange = { input = it.toInt()},
+            label = { Text("Wprowadź tekst") },
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(Color(0xFFE0F7FA)),
+            keyboardOptions = KeyboardOptions.Default.copy(
+                keyboardType = KeyboardType.Number),
+            singleLine = true
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Button(onClick = {
+                when (zadanie) {
+                    Screens.Thread.name -> vm.startThread(input)
+                    Screens.Coroutine.name -> vm.starCoroutine(input)
+                    Screens.WorkMan.name -> vm.startWorkManagerTask(input)
+                }
+            }
+        ) {
+            Text("Start Work")
+        }
+    }
+}

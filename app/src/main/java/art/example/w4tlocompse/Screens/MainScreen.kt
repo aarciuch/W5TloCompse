@@ -1,5 +1,6 @@
 package art.example.w4tlocompse.Screens
 
+import android.transition.Scene
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -33,98 +34,12 @@ import androidx.navigation.NavController
 @Composable
 fun MainScreen(navController: NavController, modifier: Modifier = Modifier) {
     Scaffold(
-        topBar = { PasekGora(modifier) },
+        topBar = { PasekGora(modifier, Screens.Thread.name) },
         bottomBar = { PasekDol(navController,modifier) },
         content = {
-            paddingValues -> Zawartosc(navController, modifier.padding(paddingValues))
+            paddingValues -> Srodek(paddingValues, Screens.Thread.name)
             //Zawartosc(navController, modifier.padding(it))
         }
     )
 }
 
-@Composable
-fun PasekGora(modifier: Modifier) {
-    Card(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(top = 16.dp, start = 16.dp, end = 16.dp)
-            .border(width = 16.dp, color = Color.Red, shape = RoundedCornerShape(16.dp)),
-    ) {
-        Box(modifier = modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-            .background(Color.Cyan),
-            Alignment.Center
-
-        ) {
-            Text(
-                textAlign = TextAlign.Center,
-                text = "Techniki\nuruchamiania\nzadań w tle",
-                fontSize = 30.sp
-            )
-        }
-    }
-}
-
-@Composable
-fun PasekDol(navController: NavController, modifier: Modifier) {
-    Row(modifier
-        .fillMaxWidth()
-        .background(Color.Cyan),
-        Arrangement.SpaceEvenly
-    ) {
-        Column(Modifier
-            .padding(4.dp)
-            .background(Color.Red)
-            .weight(1f),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text("Thread")
-            IconButton(onClick = {navController.navigate(Screens.MainScreen.name)}
-            ) {
-                Icon(Icons.Default.PlayArrow, "Thread")
-            }
-        }
-        Column(Modifier
-            .padding(4.dp)
-            .background(Color.Green)
-            .weight(1f),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text("Coroutine")
-            IconButton(onClick = {}
-            ) {
-                Icon(Icons.Default.PlayArrow, "Coroutine")
-            }
-        }
-        Column(Modifier
-            .padding(4.dp)
-            .background(Color.Blue)
-            .weight(1f),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text("WorkMan...")
-            IconButton(onClick = {navController.navigate(Screens.WorkMan.name)}
-            ) {
-                Icon(Icons.Default.PlayArrow, "WorkManager")
-            }
-        }
-        Column(Modifier
-            .padding(4.dp)
-            .background(Color.Yellow)
-            .weight(1f),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text("Service")
-            IconButton(onClick = {}
-            ) {
-                Icon(Icons.Default.PlayArrow, "Service")
-            }
-        }
-    }
-}
-
-@Composable
-fun Zawartosc(navController: NavController, modifier: Modifier) {
-
-}

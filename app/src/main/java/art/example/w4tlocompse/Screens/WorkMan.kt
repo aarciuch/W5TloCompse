@@ -12,6 +12,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.ProgressIndicatorDefaults
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -25,68 +26,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import art.example.w4tlocompse.VM
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun WorkMan(vm: VM = koinViewModel()) {
-    val progress by vm.progress.collectAsState()
-    val iteracje by vm.iteracje.collectAsState()
-    val result by vm.result.collectAsState()
-    var input by remember { mutableStateOf(10) }
-
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text("Progress: ${progress}")
-        LinearProgressIndicator(
-            progress = { (progress.toFloat() - input.toFloat())/(input+1).toFloat() },
-            color = ProgressIndicatorDefaults.linearColor,
-            trackColor = ProgressIndicatorDefaults.linearTrackColor,
-            strokeCap = ProgressIndicatorDefaults.LinearStrokeCap,
-
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Text("Iterations: $iteracje")
-        LinearProgressIndicator(
-            progress = { (iteracje + 1).toFloat()/(input+1).toFloat() },
-            color = ProgressIndicatorDefaults.linearColor,
-            trackColor = ProgressIndicatorDefaults.linearTrackColor,
-            strokeCap = ProgressIndicatorDefaults.LinearStrokeCap,
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Text("Result: $result")
-        LinearProgressIndicator(
-            progress = { result.toFloat() },
-            color = ProgressIndicatorDefaults.linearColor,
-            trackColor = ProgressIndicatorDefaults.linearTrackColor,
-            strokeCap = ProgressIndicatorDefaults.LinearStrokeCap,
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-
-        TextField(
-            value = input.toString(),
-            onValueChange = { input = it.toInt()},
-            label = { Text("Wprowadź tekst") },
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(Color(0xFFE0F7FA)),
-            keyboardOptions = KeyboardOptions.Default.copy(
-                    keyboardType = KeyboardType.Number),
-            singleLine = true
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Button(onClick = { vm.startWorkManagerTast(input) }) {
-            Text("Start Work")
-        }
-    }
-
+fun WorkMan(navController: NavController) {
+    Scaffold(
+        topBar = { PasekGora(Modifier, Screens.WorkMan.name) },
+        bottomBar = {
+            PasekDol(navController = navController, modifier = Modifier)
+        },
+    ) { paddingValues -> Srodek(paddingValues, Screens.WorkMan.name) }
 }

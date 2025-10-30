@@ -1,5 +1,6 @@
 package art.example.w4tlocompse
 
+import android.R.attr.name
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -15,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import art.example.w4tlocompse.Screens.CoroutineA
 import art.example.w4tlocompse.Screens.MainScreen
 import art.example.w4tlocompse.Screens.Screens
 import art.example.w4tlocompse.Screens.WorkMan
@@ -42,12 +44,15 @@ class MainActivity : ComponentActivity() {
 fun MainNavHost() {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = Screens.MainScreen.name ) {
-        composable(route = Screens.MainScreen.name) {
+    NavHost(navController = navController, startDestination = Screens.Thread.name ) {
+        composable(route = Screens.Thread.name) {
             MainScreen(navController)
         }
+        composable(route = Screens.Coroutine.name) {
+            CoroutineA(navController)
+        }
         composable(route = Screens.WorkMan.name) {
-            WorkMan()
+            WorkMan(navController)
         }
     }
 
