@@ -11,7 +11,7 @@ fun CoroutineA(navController: NavController, modifier: Modifier = Modifier) {
         topBar = { PasekGora(modifier, Screens.Coroutine.name) },
         bottomBar = { PasekDol(navController,modifier) },
         content = {
-                paddingValues -> Srodek(navController = navController, paddingValues, Screens.Coroutine.name)
+                paddingValues -> Srodek(paddingValues, Screens.Coroutine.name)
             //Zawartosc(navController, modifier.padding(it))
         }
     )

@@ -12,5 +12,5 @@ fun WorkMan(navController: NavController) {
         bottomBar = {
             PasekDol(navController = navController, modifier = Modifier)
         },
-    ) { paddingValues -> Srodek(navController = navController,paddingValues, Screens.WorkMan.name) }
+    ) { paddingValues -> Srodek(paddingValues, Screens.WorkMan.name) }
 }

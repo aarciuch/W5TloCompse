@@ -12,5 +12,5 @@ fun Service2(navController: NavController) {
         bottomBar = {
             PasekDol(navController = navController, modifier = Modifier)
         },
-    ) { paddingValues -> Srodek(navController = navController,paddingValues, Screens.Service2.name) }
+    ) { paddingValues -> Srodek(paddingValues, Screens.Service2.name) }
 }

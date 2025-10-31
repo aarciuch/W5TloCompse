@@ -36,12 +36,11 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
-import androidx.navigation.NavController
 import art.example.w4tlocompse.VM
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun Srodek(navController: NavController, paddingValues: PaddingValues, zadanie: String, vm: VM = koinViewModel() ) {
+fun Srodek(paddingValues: PaddingValues, zadanie: String, vm: VM = koinViewModel() ) {
 
     val progress by vm.progress.collectAsState()
     val iteracje by vm.iteracje.collectAsState()

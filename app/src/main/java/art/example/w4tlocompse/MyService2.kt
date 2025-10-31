@@ -61,7 +61,6 @@ class MyService2 : Service() {
                 }
                 MSG_CUSTOM -> {
                     val tresc = msg.data.getString("text", "nic")
-                    val client = msg.replyTo // Messenger klienta
                     Log.i("TLO", "MyService2: ${MSG_CUSTOM}\nTreść: ${tresc}")
                 }
                 else -> Unit

@@ -25,8 +25,8 @@ class MyService1 : Service() {
 
         Thread {
             var progress = input
-            var result = 0
-            var iteration = 0
+            var result: Int
+            var iteration: Int
             for (i in 0..input) {
                 progress++
                 iteration = i
@@ -55,7 +55,7 @@ class MyService1 : Service() {
                 channelName,
                 NotificationManager.IMPORTANCE_LOW,
             )
-            val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            val manager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
             manager.createNotificationChannel(channel)
         }
         return NotificationCompat.Builder(this, channelId)
