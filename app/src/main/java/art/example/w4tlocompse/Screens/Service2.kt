@@ -6,11 +6,11 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 
 @Composable
-fun WorkMan(navController: NavController) {
+fun Service2(navController: NavController) {
     Scaffold(
-        topBar = { PasekGora(Modifier, Screens.WorkMan.name) },
+        topBar = { PasekGora(Modifier, Screens.Service2.name) },
         bottomBar = {
             PasekDol(navController = navController, modifier = Modifier)
         },
-    ) { paddingValues -> Srodek(navController = navController,paddingValues, Screens.WorkMan.name) }
+    ) { paddingValues -> Srodek(navController = navController,paddingValues, Screens.Service2.name) }
 }

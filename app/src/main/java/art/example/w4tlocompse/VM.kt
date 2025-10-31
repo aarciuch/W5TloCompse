@@ -13,6 +13,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
@@ -85,5 +87,24 @@ class VM(application: Application) : AndroidViewModel(application), KoinComponen
             MyService1::class.java)
         myService1Intent.putExtra("input", input)
         application.startForegroundService(myService1Intent)
+    }
+
+    var serviceClient = MyService2Client(application,
+        {result.value = it},
+        onProgress = {progress.value = it},
+        onIteration = {iteracje.value = it})
+
+    fun startMyService2(input : Int) {
+        iteracje.value = 0
+        progress.value = 0
+        result.value = 0
+        if (serviceClient.isBound()) {
+            serviceClient.unbind()
+        }
+        viewModelScope.launch {
+            serviceClient.bind(input = input)
+            while (!serviceClient.isBound()) delay(50)
+            serviceClient.sendCustomMessage("A CUSTOM MESSAGE")
+        }
     }
 }

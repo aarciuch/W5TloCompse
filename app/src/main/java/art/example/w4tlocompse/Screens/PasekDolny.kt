@@ -83,7 +83,7 @@ fun PasekDol(navController: NavController, modifier: Modifier) {
                 ) {
                     Icon(Icons.Default.PlayArrow, "Service1")
                 }
-                IconButton(onClick = {}, Modifier.weight(1f)
+                IconButton(onClick = {navController.navigate(Screens.Service2.name)}, Modifier.weight(1f)
                 ) {
                     Icon(Icons.Default.Star, "Service2")
                 }

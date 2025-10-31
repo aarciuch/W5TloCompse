@@ -25,7 +25,7 @@ fun MainScreen(navController: NavController, modifier: Modifier = Modifier, vm: 
         topBar = { PasekGora(modifier, Screens.Thread.name) },
         bottomBar = { PasekDol(navController,modifier) },
         content = {
-            paddingValues -> Srodek(paddingValues, Screens.Thread.name)
+            paddingValues -> Srodek(navController = navController,paddingValues, Screens.Thread.name)
             //Zawartosc(navController, modifier.padding(it))
         }
     )

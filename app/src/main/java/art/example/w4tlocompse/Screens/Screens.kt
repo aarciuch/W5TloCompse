@@ -5,5 +5,5 @@ enum class Screens {
     Coroutine,
     WorkMan,
     Service1,
-    //Service2
+    Service2,
 }

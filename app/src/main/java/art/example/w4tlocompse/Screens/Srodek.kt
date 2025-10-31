@@ -36,45 +36,57 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.navigation.NavController
 import art.example.w4tlocompse.VM
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun Srodek(paddingValues: PaddingValues, zadanie: String, vm: VM = koinViewModel() ) {
+fun Srodek(navController: NavController, paddingValues: PaddingValues, zadanie: String, vm: VM = koinViewModel() ) {
 
     val progress by vm.progress.collectAsState()
     val iteracje by vm.iteracje.collectAsState()
     val result by vm.result.collectAsState()
     var input by remember { mutableStateOf(10) }
+
+
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
+    var myService1Receiver : BroadcastReceiver? = null
+    val myService1Filter = IntentFilter("MY_SERVICE1_UPDATE")
+
     DisposableEffect(lifecycleOwner) {
 
-        val myService1Receiver = object : BroadcastReceiver() {
-            override fun onReceive(
-                context: Context?,
-                intent: Intent?
-            ) {
-                intent?.let { intent ->
-                    vm.updateDataFromMyService1Broadcast(intent = intent)
-                    Log.i("TLO", "MyService1Receiver onReceive")
+        if (zadanie == Screens.Service1.name) {
+            myService1Receiver = object : BroadcastReceiver() {
+                override fun onReceive(
+                    context: Context?,
+                    intent: Intent?
+                ) {
+                    intent?.let { intent ->
+                        vm.updateDataFromMyService1Broadcast(intent = intent)
+                        Log.i("TLO", "MyService1Receiver onReceive")
+                    }
                 }
             }
         }
-        val myService1Filter = IntentFilter("MY_SERVICE1_UPDATE")
-
         val observer = LifecycleEventObserver { _, event ->
             when (event) {
                 Lifecycle.Event.ON_START -> {
-                    context.registerReceiver(myService1Receiver, myService1Filter,
-                        Context.RECEIVER_EXPORTED)
-                    Log.i("TLO", "Receiver registered")
-                }
-                Lifecycle.Event.ON_STOP -> {
-                    context.unregisterReceiver(myService1Receiver)
-                    Log.i("TLO", "Receiver unregistered")
+                    if (zadanie == Screens.Service1.name) {
+                        context.registerReceiver(
+                            myService1Receiver, myService1Filter,
+                            Context.RECEIVER_EXPORTED
+                        )
+                        Log.i("TLO", "Receiver registered")
+                    }
                 }
 
+                Lifecycle.Event.ON_STOP -> {
+                    if (zadanie == Screens.Service1.name) {
+                        context.unregisterReceiver(myService1Receiver)
+                        Log.i("TLO", "Receiver unregistered")
+                    }
+                }
                 else -> Unit
             }
         }
@@ -83,6 +95,7 @@ fun Srodek(paddingValues: PaddingValues, zadanie: String, vm: VM = koinViewModel
             lifecycleOwner.lifecycle.removeObserver(observer = observer)
         }
     }
+
 
     Column(
         modifier = Modifier
@@ -139,6 +152,7 @@ fun Srodek(paddingValues: PaddingValues, zadanie: String, vm: VM = koinViewModel
                     Screens.Coroutine.name -> vm.starCoroutine(input)
                     Screens.WorkMan.name -> vm.startWorkManagerTask(input)
                     Screens.Service1.name -> vm.startMyService1(input)
+                    Screens.Service2.name -> vm.startMyService2(input)
                 }
             }
         ) {

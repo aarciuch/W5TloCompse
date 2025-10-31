@@ -19,6 +19,7 @@ import art.example.w4tlocompse.Screens.CoroutineA
 import art.example.w4tlocompse.Screens.MainScreen
 import art.example.w4tlocompse.Screens.Screens
 import art.example.w4tlocompse.Screens.Service1
+import art.example.w4tlocompse.Screens.Service2
 import art.example.w4tlocompse.Screens.WorkMan
 import art.example.w4tlocompse.ui.theme.W4TloCompseTheme
 
@@ -56,6 +57,9 @@ fun MainNavHost() {
         }
         composable(Screens.Service1.name) {
             Service1(navController = navController)
+        }
+        composable(Screens.Service2.name) {
+            Service2(navController = navController)
         }
     }
 
