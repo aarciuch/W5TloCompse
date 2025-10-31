@@ -62,8 +62,10 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
 
     // 🔌 Koin dla Compose i ViewModeli
+    implementation("io.insert-koin:koin-core:4.1.1")
     implementation(libs.koin.android)
     implementation(libs.koin.androidx.compose)
+    implementation("io.insert-koin:koin-compose-viewmodel:4.1.1")
 
     //WorkManager
     implementation(libs.androidx.work.runtime.ktx)

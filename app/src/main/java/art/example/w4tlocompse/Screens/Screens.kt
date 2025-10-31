@@ -4,5 +4,6 @@ enum class Screens {
     Thread,
     Coroutine,
     WorkMan,
-    //Service
+    Service1,
+    //Service2
 }

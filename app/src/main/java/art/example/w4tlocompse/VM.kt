@@ -1,8 +1,15 @@
 package art.example.w4tlocompse
 
 import android.app.Application
+import android.content.Context
+import android.content.Intent
+import android.util.Log
+import androidx.compose.ui.platform.LocalContext
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.application
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
@@ -64,6 +71,19 @@ class VM(application: Application) : AndroidViewModel(application), KoinComponen
             coroutineA.result.collect { result.value = it }
         }
         coroutineA.start(viewModelScope)
+    }
 
+    fun updateDataFromMyService1Broadcast(intent : Intent) {
+        Log.i("TLO", "VM upupdateDataFromMyService1Broadcast")
+        progress.value = intent.getIntExtra("progress", 0)
+        result.value = intent.getIntExtra("result",0)
+        iteracje.value = intent.getIntExtra("iteration", 0)
+    }
+
+    fun startMyService1(input : Int) {
+        val myService1Intent = Intent(application,
+            MyService1::class.java)
+        myService1Intent.putExtra("input", input)
+        application.startForegroundService(myService1Intent)
     }
 }

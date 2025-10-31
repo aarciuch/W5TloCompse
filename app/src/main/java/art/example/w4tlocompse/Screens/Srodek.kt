@@ -1,5 +1,10 @@
 package art.example.w4tlocompse.Screens
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,6 +21,7 @@ import androidx.compose.material3.ProgressIndicatorDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -24,17 +30,59 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import art.example.w4tlocompse.VM
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun Srodek(paddingValues: PaddingValues, zadanie: String, vm: VM = koinViewModel() ) {
+
     val progress by vm.progress.collectAsState()
     val iteracje by vm.iteracje.collectAsState()
     val result by vm.result.collectAsState()
     var input by remember { mutableStateOf(10) }
+    val context = LocalContext.current
+    val lifecycleOwner = LocalLifecycleOwner.current
+    DisposableEffect(lifecycleOwner) {
+
+        val myService1Receiver = object : BroadcastReceiver() {
+            override fun onReceive(
+                context: Context?,
+                intent: Intent?
+            ) {
+                intent?.let { intent ->
+                    vm.updateDataFromMyService1Broadcast(intent = intent)
+                    Log.i("TLO", "MyService1Receiver onReceive")
+                }
+            }
+        }
+        val myService1Filter = IntentFilter("MY_SERVICE1_UPDATE")
+
+        val observer = LifecycleEventObserver { _, event ->
+            when (event) {
+                Lifecycle.Event.ON_START -> {
+                    context.registerReceiver(myService1Receiver, myService1Filter,
+                        Context.RECEIVER_EXPORTED)
+                    Log.i("TLO", "Receiver registered")
+                }
+                Lifecycle.Event.ON_STOP -> {
+                    context.unregisterReceiver(myService1Receiver)
+                    Log.i("TLO", "Receiver unregistered")
+                }
+
+                else -> Unit
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer = observer)
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -90,6 +138,7 @@ fun Srodek(paddingValues: PaddingValues, zadanie: String, vm: VM = koinViewModel
                     Screens.Thread.name -> vm.startThread(input)
                     Screens.Coroutine.name -> vm.starCoroutine(input)
                     Screens.WorkMan.name -> vm.startWorkManagerTask(input)
+                    Screens.Service1.name -> vm.startMyService1(input)
                 }
             }
         ) {

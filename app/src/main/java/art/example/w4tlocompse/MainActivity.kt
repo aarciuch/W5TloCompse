@@ -18,6 +18,7 @@ import androidx.navigation.compose.rememberNavController
 import art.example.w4tlocompse.Screens.CoroutineA
 import art.example.w4tlocompse.Screens.MainScreen
 import art.example.w4tlocompse.Screens.Screens
+import art.example.w4tlocompse.Screens.Service1
 import art.example.w4tlocompse.Screens.WorkMan
 import art.example.w4tlocompse.ui.theme.W4TloCompseTheme
 
@@ -52,6 +53,9 @@ fun MainNavHost() {
         }
         composable(route = Screens.WorkMan.name) {
             WorkMan(navController)
+        }
+        composable(Screens.Service1.name) {
+            Service1(navController = navController)
         }
     }
 
