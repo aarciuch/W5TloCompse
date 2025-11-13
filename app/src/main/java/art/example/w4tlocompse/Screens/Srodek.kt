@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import art.example.w4tlocompse.MyService1BroadcastReceiver
 import art.example.w4tlocompse.VM
 import org.koin.androidx.compose.koinViewModel
 
@@ -67,6 +68,7 @@ fun Srodek(paddingValues: PaddingValues, zadanie: String, vm: VM = koinViewModel
                     }
                 }
             }
+            //myService1Receiver = MyService1BroadcastReceiver(vm)
         }
         val observer = LifecycleEventObserver { _, event ->
             when (event) {
